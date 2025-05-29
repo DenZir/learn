@@ -3,11 +3,11 @@
 
 {% block content %}
 {% for product in products %}
-<div class="product">
-    <h1>{{ product.name }}</h1>
-    <p><h3>{{ product.price }}</h3></p>
+<div style="max-width: 300px" class="product">
+    <h1 style= "margin 0 0 8px 0">{{ product.name }}</h1>
+    <p><h3 style="color:rgb(87, 85, 85)">{{ product.price }}</h3></p>
     <p>{{ product.description }}</p>
-    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+    <img class="product-image" src="{{ product.image.url }}" alt="{{ product.name }}">
 </div>
 {% endfor %}
 {% endblock %}
