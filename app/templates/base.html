@@ -6,10 +6,88 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}{% endblock %}</title>
-        <link rel= "stylesheet" href="{% static 'app/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
     <body>
-        {% block content %}
-        {% endblock %}
+        <header class="header">
+            <div class="header__top">
+                <div class="container header__top-container">
+                    <div>Доставка по всей России</div>
+                    <div>Вход / Регистрация</div>
+                </div>
+            </div>
+            <div class="header__main">
+                <div class="container header__main-container">
+                    <div class="header__logo">RGWB</div>
+                    <div class="header__search">
+                        <input type="text" placeholder="Поиск по товарам">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="header__icons">
+                        <div class="header__icon">
+                            <i class="far fa-user"></i>
+                            <span>Профиль</span>
+                        </div>
+                        <div class="header__icon">
+                            <i class="far fa-heart"></i>
+                            <span>Избранное</span>
+                        </div>
+                        <div class="header__icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Корзина</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="container">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer__container">
+                    <div class="footer__column">
+                        <h3>Покупателям</h3>
+                        <ul>
+                            <li><a href="#">Как сделать заказ</a></li>
+                            <li><a href="#">Способы оплаты</a></li>
+                            <li><a href="#">Доставка</a></li>
+                            <li><a href="#">Возврат товара</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer__column">
+                        <h3>Компания</h3>
+                        <ul>
+                            <li><a href="#">О нас</a></li>
+                            <li><a href="#">Реквизиты</a></li>
+                            <li><a href="#">Контакты</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer__column">
+                        <h3>Партнерам</h3>
+                        <ul>
+                            <li><a href="#">Продавать на RGWB</a></li>
+                            <li><a href="#">Франшиза</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer__column">
+                        <h3>Контакты</h3>
+                        <ul>
+                            <li>89999999999 </li>
+                            <li>support@example.com</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer__bottom">
+                    © 2025 RGSUberries Style Shop. Все права защищены.
+                </div>
+            </div>
+        </footer>
     </body>
 </html>
