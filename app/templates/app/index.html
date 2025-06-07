@@ -1,43 +1,59 @@
 {% extends "base.html" %}
-{% block title %} {{ title }} {% endblock %}
+{% block title %}Каталог товаров{% endblock %}
 
 {% block content %}
+<h1>Каталог товаров</h1>
+
 <div class="products-grid">
     {% for product in products %}
-    <div class="product-card">
-        <div class="product-card__badge">-{{ product.discount }}%</div>
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-card__image">
-        <div class="product-card__info">
-            <div class="product-card__price">{{ product.price }} ₽ 
-                {% if product.old_price %}
-                <span class="product-card__old-price">{{ product.old_price }} ₽</span>
-                <span class="product-card__discount">-{{ product.discount }}%</span>
-                {% endif %}
-            </div>
-            <div class="product-card__title">{{ product.name }}</div>
-            <div class="product-card__rating">
-                <div class="product-card__stars">
-                    {% for i in "12345" %}
-                        {% if i <= product.rating %}
-                            <i class="fas fa-star product-card__stars--filled"></i>
-                        {% else %}
-                            <i class="fas fa-star"></i>
-                        {% endif %}
-                    {% endfor %}
+        <div class="product-card">
+            {% if product.discount > 0 %}
+                <div class="product-card__badge">-{{ product.discount }}%</div>
+            {% endif %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-card__image">
+            <div class="product-card__info">
+                <div class="product-card__price">
+                    {{ product.price }} ₽
+                    {% if product.old_price %}
+                        <span class="product-card__old-price">{{ product.old_price }} ₽</span>
+                        <span class="product-card__discount">-{{ product.discount }}%</span>
+                    {% endif %}
                 </div>
-                <div class="product-card__reviews">{{ product.reviews_count }}</div>
+                <div class="product-card__title">{{ product.name }}</div>
+                <div class="product-card__rating">
+                    <div class="product-card__stars">
+                        {% for i in "12345" %}
+                            {% if i <= product.rating|floatformat:"0" %}
+                                <i class="fas fa-star"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="product-card__reviews">{{ product.reviews_count }}</div>
+                </div>
+                <button class="product-card__add-to-cart"
+                        onclick="addToCart({{ product.id }}, '{{ product.name }}', {{ product.price|floatformat:"2" }}, '{{ product.image.url }}')">
+                    В корзину
+                </button>
             </div>
-            <button class="product-card__add-to-cart">В корзину</button>
         </div>
-    </div>
+    {% empty %}
+        <p>Нет товаров.</p>
     {% endfor %}
 </div>
 
+<!-- Пагинация -->
+<!-- Пагинация -->
 <div class="pagination">
     {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}" class="pagination__item"><i class="fas fa-chevron-left"></i></a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="pagination__item">
+            <i class="fas fa-chevron-left"></i>
+        </a>
     {% else %}
-        <div class="pagination__item pagination__item--disabled"><i class="fas fa-chevron-left"></i></div>
+        <div class="pagination__item pagination__item--disabled">
+            <i class="fas fa-chevron-left"></i>
+        </div>
     {% endif %}
 
     {% for num in page_obj.paginator.page_range %}
@@ -49,9 +65,13 @@
     {% endfor %}
 
     {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}" class="pagination__item"><i class="fas fa-chevron-right"></i></a>
+        <a href="?page={{ page_obj.next_page_number }}" class="pagination__item">
+            <i class="fas fa-chevron-right"></i>
+        </a>
     {% else %}
-        <div class="pagination__item pagination__item--disabled"><i class="fas fa-chevron-right"></i></div>
+        <div class="pagination__item pagination__item--disabled">
+            <i class="fas fa-chevron-right"></i>
+        </div>
     {% endif %}
 </div>
 {% endblock %}

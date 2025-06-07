@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Корзина{% endblock %}
+
+{% block content %}
+<h1>Корзина</h1>
+
+<div id="cart-items">
+    <p>Корзина пуста.</p>
+</div>
+
+<p><strong>Общая сумма:</strong> <span id="total-price">0</span> ₽</p>
+
+<a href="#" class="btn-checkout">Оформить заказ</a>
+
+<script>
+function renderCart() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const container = document.getElementById('cart-items');
+    const totalPriceEl = document.getElementById('total-price');
+    let total = 0;
+
+    if (cart.length === 0) {
+        container.innerHTML = '<p>Корзина пуста.</p>';
+        totalPriceEl.textContent = '0';
+        return;
+    }
+
+    container.innerHTML = '';
+
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+
+        const itemHTML = `
+            <div class="cart-item" style="margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+                <img src="${item.image}" alt="${item.name}" width="80" />
+                <div style="margin-left: 10px;">
+                    <h3>${item.name}</h3>
+                    <p>Цена: ${item.price} ₽</p>
+                    <p>Количество: ${item.quantity}</p>
+                    <button onclick="removeFromCart(${item.id})" style="color: red;">Удалить</button>
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', itemHTML);
+    });
+
+    totalPriceEl.textContent = total.toFixed(2);
+}
+
+function removeFromCart(productId) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart = cart.filter(item => item.id !== productId);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCart();
+    updateCartCount();
+}
+
+document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+
+<style>
+.btn-checkout {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    margin-top: 20px;
+}
+</style>
+
+{% endblock %}
